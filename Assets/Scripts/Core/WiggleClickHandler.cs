@@ -3,12 +3,16 @@ using UnityEngine.EventSystems;
 using System.Collections;
 using Wiggle.Global;
 using Wiggle.Effects;
+using Wiggle.Systems;
 
 namespace Wiggle.Core
 {
     public class WiggleClickHandler : MonoBehaviour, IPointerDownHandler
     {
-        [Header("✨ UX Settings")]
+        [Header("Systems")]
+        public WiggleSystem wiggleSystem;
+
+        [Header("UX Settings")]
         [Tooltip("클릭 시 흔들릴 렌더러 오브젝트 (왕 이미지)")]
         public Transform kingVisual;
         
@@ -18,13 +22,10 @@ namespace Wiggle.Core
         // 모바일 터치 / 마우스 클릭 즉시 호출됨
         public void OnPointerDown(PointerEventData eventData)
         {
-            // 1. 코어 로직: 실룩 지수 증가 (최대치 제한)
-            if (GameManager.Instance != null)
+            // 1. 코어 로직: 실룩 지수 증가
+            if (wiggleSystem != null)
             {
-                GameManager.Instance.wigglePower = Mathf.Min(
-                    GameManager.Instance.wigglePower + GameManager.Instance.wiggleBoostPerClick,
-                    GameManager.Instance.wiggleMax
-                );
+                wiggleSystem.BoostWiggle();
             }
 
             // 2. UX 피드백 실행

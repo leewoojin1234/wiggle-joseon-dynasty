@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
-using Wiggle.Global;
+using Wiggle.Data;
 
 namespace Wiggle.Controllers
 {
     public class KingAnimationController : MonoBehaviour
     {
+        [Header("Data Reference")]
+        public GameStatus status;
+        public GameSettings settings;
+
         [Header("UI Reference")]
         [Tooltip("왕을 표시하는 UI Image 컴포넌트")]
         public Image kingImage; 
@@ -32,9 +36,9 @@ namespace Wiggle.Controllers
 
         void Update()
         {
-            if (GameManager.Instance == null || rectTransform == null) return;
+            if (status == null || settings == null || rectTransform == null) return;
 
-            bool isBonusActive = GameManager.Instance.wigglePower > (GameManager.Instance.wiggleBase + 0.01f);
+            bool isBonusActive = status.wigglePower > (settings.wiggleBase + 0.01f);
 
             if (isBonusActive)
             {
