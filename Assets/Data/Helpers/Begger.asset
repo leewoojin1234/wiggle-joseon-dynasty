@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0698b7b2beda14025b47bdbe647933c5, type: 3}
-  m_Name: GameSettings
+  m_Script: {fileID: 11500000, guid: cb0e25307264c4d4198ad57b6978e8f3, type: 3}
+  m_Name: Begger
   m_EditorClassIdentifier: 
-  baseIncomePerSecond: 1
-  wiggleBase: 1
-  wiggleBoostPerClick: 0.1
-  wiggleMax: 2
-  wiggleDecayRate: 0.3
+  helperName: "\uAC01\uC124\uC774"
+  baseCost: 10
+  baseIncome: 1
+  costMultiplier: 1.15

@@ -9,11 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0698b7b2beda14025b47bdbe647933c5, type: 3}
-  m_Name: GameSettings
+  m_Script: {fileID: 11500000, guid: ef2eab39c9b8f4b4aa7ba8612b1f84a2, type: 3}
+  m_Name: HelperStatus
   m_EditorClassIdentifier: 
-  baseIncomePerSecond: 1
-  wiggleBase: 1
-  wiggleBoostPerClick: 0.1
-  wiggleMax: 2
-  wiggleDecayRate: 0.3
+  helperLevels: 11000000050000000000000000000000000000000000000000000000

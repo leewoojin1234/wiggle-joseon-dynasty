@@ -24,6 +24,11 @@ namespace Wiggle.Data
         public void AddMoney(double amount)
         {
             money += amount;
+            NotifyMoneyChanged();
+        }
+
+        public void NotifyMoneyChanged()
+        {
             OnMoneyChanged?.Invoke();
         }
 

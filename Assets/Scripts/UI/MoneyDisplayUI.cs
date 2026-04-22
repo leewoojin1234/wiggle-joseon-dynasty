@@ -41,9 +41,14 @@ namespace Wiggle.UI
                 status.OnMoneyChanged -= UpdateMoneyDisplay;
             }
         }
+void Update()
+{
+    UpdateMoneyDisplay();
+}
 
-        private void UpdateMoneyDisplay()
-        {
+private void UpdateMoneyDisplay()
+{
+
             if (moneyText == null || status == null) return;
 
             // 돈 단위를 정수로 표현하거나, 특정 포맷(예: 천 단위 콤마)으로 출력
