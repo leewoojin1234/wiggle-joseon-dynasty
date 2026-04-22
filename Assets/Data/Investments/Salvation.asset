@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb5c171896c54cf5a919c8670996c29, type: 3}
+  m_Name: Salvation
+  m_EditorClassIdentifier: 
+  investmentName: "\uB300\uADDC\uBAA8 \uBE48\uBBFC \uAD6C\uD73C"
+  description: 
+  baseCost: 50000000
+  baseDuration: 120
+  baseSuccessIncome: 0
+  baseSuccessRate: 1
+  upgradeCostBase: 50000000
+  upgradeCostMultiplier: 1.1
+  incomePerLevel: 0
+  durationReducePerLevel: 5
+  successRatePerLevel: 0
+  successMinSim: 4
+  failMinSim: 0

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8065272984963665866}
   - component: {fileID: 7858030141130401939}
   m_Layer: 5
-  m_Name: ClickEffect
+  m_Name: Click Effect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

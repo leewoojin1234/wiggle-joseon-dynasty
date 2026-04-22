@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dfb5c171896c54cf5a919c8670996c29, type: 3}
+  m_Name: Paddler
+  m_EditorClassIdentifier: 
+  investmentName: "\uBCF4\uBD80\uC0C1 \uC721\uC131"
+  description: 
+  baseCost: 10000
+  baseDuration: 30
+  baseSuccessIncome: 30000
+  baseSuccessRate: 0.75
+  upgradeCostBase: 5000
+  upgradeCostMultiplier: 1.3
+  incomePerLevel: 10000
+  durationReducePerLevel: 0.5
+  successRatePerLevel: 0.001
+  successMinSim: 0.5
+  failMinSim: -2

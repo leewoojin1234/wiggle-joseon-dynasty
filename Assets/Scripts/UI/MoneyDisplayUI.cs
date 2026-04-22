@@ -48,12 +48,11 @@ void Update()
 
 private void UpdateMoneyDisplay()
 {
+    if (moneyText == null || status == null) return;
 
-            if (moneyText == null || status == null) return;
+    // NumberFormatter 적용
+    moneyText.text = $"{prefix}{NumberFormatter.Format(status.money)}{suffix}";
+}
 
-            // 돈 단위를 정수로 표현하거나, 특정 포맷(예: 천 단위 콤마)으로 출력
-            // "N0"는 소수점 없이 천 단위 콤마를 추가하는 포맷입니다.
-            moneyText.text = $"{prefix}{status.money:N0}{suffix}";
-        }
     }
 }

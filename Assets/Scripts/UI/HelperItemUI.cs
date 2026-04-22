@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Wiggle.Data;
+using Wiggle.Global;
 using Wiggle.Systems;
 
 namespace Wiggle.UI
@@ -43,8 +44,8 @@ namespace Wiggle.UI
 
             nameText.text = _data.helperName;
             levelText.text = $"Lv. {level}";
-            // N0 대신 F1 등을 사용하여 소수점까지 표시하거나, 반올림 오해를 없앱니다.
-            costText.text = $"{cost:F1} 냥";
+            // NumberFormatter 적용
+            costText.text = $"{NumberFormatter.Format(cost)} 냥";
 
             // 초기 상태 설정
             RefreshButtonState();
