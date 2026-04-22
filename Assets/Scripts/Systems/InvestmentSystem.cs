@@ -36,9 +36,9 @@ namespace Wiggle.Systems
             if (Instance == null) Instance = this;
             gameStatus ??= DataHub.Status;
             
-            // 투자 항목 수만큼 레벨 배열 초기화 (처음 시작 시)
+            // 투자 항목 수만큼 레벨 배열 초기화 (데이터가 없을 때만)
             if (investmentStatus != null && allInvestments != null)
-                investmentStatus.Initialize(allInvestments.Length);
+                investmentStatus.Initialize(allInvestments.Length, false);
         }
 
         void Update()
@@ -97,6 +97,13 @@ namespace Wiggle.Systems
                 
                 gameStatus.NotifyMoneyChanged();
                 investmentStatus.NotifyHelperUpdated(); // UI 갱신용 알림
+                
+                // [추가] 자동 저장
+                if (SaveManager.Instance != null && SaveManager.Instance.CurrentSlotIndex != -1)
+                {
+                    SaveManager.Instance.SaveGame(SaveManager.Instance.CurrentSlotIndex);
+                }
+
                 Debug.Log($"{allInvestments[index].investmentName} 레벨업! 현재 Lv.{investmentStatus.GetLevel(index)}");
                 return true;
             }
@@ -124,6 +131,12 @@ namespace Wiggle.Systems
             {
                 gameStatus.AddMinSim(data.failMinSim);
                 Debug.Log($"<color=red>[실패]</color> {data.investmentName} 성과 없음.");
+            }
+
+            // [추가] 자동 저장
+            if (SaveManager.Instance != null && SaveManager.Instance.CurrentSlotIndex != -1)
+            {
+                SaveManager.Instance.SaveGame(SaveManager.Instance.CurrentSlotIndex);
             }
         }
 
