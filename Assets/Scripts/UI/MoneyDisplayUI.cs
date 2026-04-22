@@ -1,13 +1,14 @@
 using UnityEngine;
-using TMPro; // TextMeshPro를 사용하기 위해 필요
+using TMPro;
 using Wiggle.Data;
+using Wiggle.Global;
 
 namespace Wiggle.UI
 {
     public class MoneyDisplayUI : MonoBehaviour
     {
         [Header("Data Reference")]
-        public GameStatus status;
+        private GameStatus status;
 
         [Header("UI Reference")]
         [Tooltip("돈을 표시할 TextMeshProUGUI 컴포넌트")]
@@ -18,6 +19,8 @@ namespace Wiggle.UI
         public string prefix = "냥: ";
         [Tooltip("숫자 뒤에 붙일 접미어")]
         public string suffix = "";
+
+        void Awake() => status ??= DataHub.Status;
 
         void OnEnable()
         {

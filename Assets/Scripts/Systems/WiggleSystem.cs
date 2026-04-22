@@ -1,12 +1,20 @@
+using System;
 using UnityEngine;
 using Wiggle.Data;
+using Wiggle.Global;
 
 namespace Wiggle.Systems
 {
     public class WiggleSystem : MonoBehaviour
     {
-        public GameStatus status;
-        public GameSettings settings;
+        private GameStatus status;
+        private GameSettings settings;
+
+        private void Awake()
+        {
+            status ??= DataHub.Status;
+            settings ??= DataHub.Settings;
+        }
 
         void Start()
         {

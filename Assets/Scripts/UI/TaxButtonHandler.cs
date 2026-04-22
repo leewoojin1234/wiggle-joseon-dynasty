@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Wiggle.Data;
+using Wiggle.Global;
 using Wiggle.Systems;
 
 namespace Wiggle.UI
@@ -9,7 +11,7 @@ namespace Wiggle.UI
     public class TaxButtonHandler : MonoBehaviour, IPointerDownHandler
     {
         [Header("Systems & Data")]
-        public GameStatus status;
+        private GameStatus status;
         public SentimentSystem sentimentSystem;
 
         [Header("Tax Settings")]
@@ -17,6 +19,8 @@ namespace Wiggle.UI
         public double taxIncomeAmount = 1000;
         [Tooltip("세금 클릭 시 민심 감소량 (음수로 입력)")]
         public float minSimPenalty = -10f;
+
+        private void Awake() => status ??= DataHub.Status;
 
         public void OnPointerDown(PointerEventData eventData)
         {

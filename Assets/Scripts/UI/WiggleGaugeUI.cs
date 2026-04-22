@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Wiggle.Data;
+using Wiggle.Global;
 
 namespace Wiggle.UI
 {
     public class WiggleGaugeUI : MonoBehaviour
     {
         [Header("Data Reference")]
-        public GameStatus status;
-        public GameSettings settings;
+        private GameStatus status;
+        private GameSettings settings;
 
         [Header("UI Reference")]
         public Slider gaugeSlider;
@@ -18,6 +19,12 @@ namespace Wiggle.UI
         public Color normalColor = Color.white;
         public Color bonusColor = Color.yellow;
 
+        private void Awake()
+        {
+            status ??= DataHub.Status;
+            settings ??= DataHub.Settings;
+        }
+        
         void Start()
         {
             if (gaugeSlider == null)

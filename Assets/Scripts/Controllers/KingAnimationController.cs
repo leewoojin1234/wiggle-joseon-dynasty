@@ -1,14 +1,15 @@
 using UnityEngine;
 using UnityEngine.UI;
 using Wiggle.Data;
+using Wiggle.Global;
 
 namespace Wiggle.Controllers
 {
     public class KingAnimationController : MonoBehaviour
     {
         [Header("Data Reference")]
-        public GameStatus status;
-        public GameSettings settings;
+        private GameStatus status;
+        private GameSettings settings;
 
         [Header("UI Reference")]
         [Tooltip("왕을 표시하는 UI Image 컴포넌트")]
@@ -27,6 +28,9 @@ namespace Wiggle.Controllers
 
         void Awake()
         {
+            status ??= DataHub.Status;
+            settings ??= DataHub.Settings;
+            
             // Image 컴포넌트가 연결되어 있다면 RectTransform을 미리 가져옵니다.
             if (kingImage != null)
             {

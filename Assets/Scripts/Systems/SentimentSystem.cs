@@ -1,12 +1,15 @@
 using UnityEngine;
 using Wiggle.Data;
+using Wiggle.Global;
 
 namespace Wiggle.Systems
 {
     public class SentimentSystem : MonoBehaviour
     {
-        public GameStatus status;
+        private GameStatus status;
 
+        private void Awake() => status ??= DataHub.Status;
+        
         public void AddMinSim(float amount)
         {
             if (status == null) return;

@@ -15,5 +15,5 @@ MonoBehaviour:
   baseIncomePerSecond: 10
   wiggleBase: 1
   wiggleBoostPerClick: 0.2
-  wiggleMax: 5
-  wiggleDecayRate: 0.3
+  wiggleMax: 3
+  wiggleDecayRate: 1
