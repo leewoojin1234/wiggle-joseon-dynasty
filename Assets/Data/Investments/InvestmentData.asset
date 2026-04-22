@@ -9,7 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef2eab39c9b8f4b4aa7ba8612b1f84a2, type: 3}
-  m_Name: HelperStatus
+  m_Script: {fileID: 11500000, guid: dfb5c171896c54cf5a919c8670996c29, type: 3}
+  m_Name: InvestmentData
   m_EditorClassIdentifier: 
-  helperLevels: 11000000050000000000000000000000000000000000000000000000
+  investmentName: 
+  description: 
+  baseCost: 0
+  baseIncome: 0
+  minSimBonus: 0
+  costMultiplier: 1.2

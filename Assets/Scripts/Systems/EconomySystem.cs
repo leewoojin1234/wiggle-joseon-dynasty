@@ -24,15 +24,19 @@ namespace Wiggle.Systems
             // 민심 보정치 계산
             float sentimentModifier = CalculateSentimentModifier();
 
-            // 총 기본 수익 = 고정 기본 수익 + 조력자 수익 합산
+            // 총 기본 수익 = 고정 기본 수익 + 조력자 수익 + 투자 수익 합산
             var hSystem = helperSystem != null ? helperSystem : HelperSystem.Instance;
             double helperIncome = (hSystem != null) ? hSystem.GetCurrentTotalHelperIncome() : 0;
-            double totalBaseIncome = settings.baseIncomePerSecond + helperIncome;
+            
+            var iSystem = InvestmentSystem.Instance;
+            double investmentIncome = (iSystem != null) ? iSystem.GetTotalInvestmentIncome() : 0;
+
+            double totalBaseIncome = settings.baseIncomePerSecond + helperIncome + investmentIncome;
 
             // 자동 돈 생산 계산
             double currentIncome = totalBaseIncome * status.wigglePower * sentimentModifier;
             
-            // 이벤트를 발생시키지 않고 데이터만 직접 갱신 (성능 및 UI 깜빡임 방지)
+            // 이벤트를 발생시키지 않고 데이터만 직접 갱신
             status.money += currentIncome * Time.deltaTime;
         }
 
