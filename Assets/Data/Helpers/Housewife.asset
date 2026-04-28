@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Housewife
   m_EditorClassIdentifier: 
   helperName: "\uC8FC\uBAA8"
+  visualPrefab: {fileID: 8174195013818459700, guid: 2b41814bab8134383a3079e2bbbd42f2, type: 3}
   baseCost: 150
   baseIncome: 15
   costMultiplier: 1.15

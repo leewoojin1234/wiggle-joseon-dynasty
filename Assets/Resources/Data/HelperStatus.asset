@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef2eab39c9b8f4b4aa7ba8612b1f84a2, type: 3}
   m_Name: HelperStatus
   m_EditorClassIdentifier: 
-  helperLevels: 00000000000000000000000000000000000000000000000000000000
+  helperLevels: 0a000000010000000000000000000000000000000000000000000000

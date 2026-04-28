@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Seonbi
   m_EditorClassIdentifier: 
   helperName: "\uC120\uBE44"
+  visualPrefab: {fileID: 8174195013818459700, guid: 347229652deb84ef5a4b72d2fd942e2a, type: 3}
   baseCost: 2000
   baseIncome: 220
   costMultiplier: 1.15

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Wiggle.Data;
 using Wiggle.Global;
+using System.Collections.Generic;
 
 namespace Wiggle.Systems
 {
@@ -9,64 +10,103 @@ namespace Wiggle.Systems
         public static HelperSystem Instance { get; private set; }
 
         [Header("Data References")]
-        public GameStatus gameStatus;
-        public HelperStatus helperStatus;
         public HelperData[] allHelpers;
+
+        [Header("Visual Settings")]
+        [Tooltip("조력자가 생성되어 배치될 부모 오브젝트")]
+        public Transform visualParent;
+
+        // DataHub를 통해 데이터에 접근하도록 프로퍼티화
+        public GameStatus gameStatus => DataHub.Status;
+        public HelperStatus helperStatus => DataHub.HelperStatus;
 
         void Awake()
         {
-            if (Instance == null)
-            {
-                Instance = this;
-            }
-            else
-            {
-                Destroy(gameObject);
-                return;
-            }
+            if (Instance == null) Instance = this;
+            else { Destroy(gameObject); return; }
+        }
 
-            gameStatus ??= DataHub.Status;
-            
+        void Start()
+        {
             if (helperStatus != null && allHelpers != null)
             {
-                helperStatus.Initialize(allHelpers.Length);
+                helperStatus.Initialize(allHelpers.Length, false);
+                SpawnExistingVisuals();
+                
+                // 데이터 리셋 이벤트 구독
+                helperStatus.OnDataReset += SpawnExistingVisuals;
             }
         }
 
-        // 특정 조력자를 고용하거나 업그레이드 시도
+        void OnDestroy()
+        {
+            if (helperStatus != null)
+            {
+                helperStatus.OnDataReset -= SpawnExistingVisuals;
+            }
+        }
+public void SpawnExistingVisuals()
+{
+    if (visualParent == null || helperStatus == null || allHelpers == null) return;
+
+    // 1. 기존 비주얼 즉시 완전 삭제 (중복 방지)
+    int childCount = visualParent.childCount;
+    for (int i = childCount - 1; i >= 0; i--)
+    {
+        Destroy(visualParent.GetChild(i).gameObject);
+    }
+
+    // 2. 레벨이 1 이상인 조력자만 소환
+    if (helperStatus.helperLevels != null)
+            {
+                for (int i = 0; i < helperStatus.helperLevels.Length; i++)
+                {
+                    if (i < allHelpers.Length && helperStatus.helperLevels[i] >= 1)
+                    {
+                        SpawnVisual(i);
+                    }
+                }
+            }
+        }
+
+        private void SpawnVisual(int index)
+        {
+            if (visualParent == null || allHelpers[index].visualPrefab == null) return;
+            Instantiate(allHelpers[index].visualPrefab, visualParent);
+        }
+
         public bool TryUpgradeHelper(int index)
         {
             if (index < 0 || index >= allHelpers.Length) return false;
 
-            // 1. 순차 고용 체크: 이전 단계 조력자가 최소 레벨 1이어야 함
             if (index > 0 && helperStatus.GetLevel(index - 1) < 1)
             {
                 Debug.LogWarning($"{allHelpers[index - 1].helperName}을(를) 먼저 고용해야 합니다!");
                 return false;
             }
 
-            // 2. 가격 확인
             int currentLevel = helperStatus.GetLevel(index);
             double cost = allHelpers[index].GetCost(currentLevel);
 
             if (gameStatus.money >= cost)
             {
-                // 3. 지불 및 레벨업
-                gameStatus.money -= cost; // 직접 차감 (이벤트 발생 X)
-                helperStatus.helperLevels[index]++; // 직접 레벨업 (이벤트 발생 X)
+                bool isFirstHire = currentLevel == 0;
+                gameStatus.money -= cost;
+                helperStatus.helperLevels[index]++;
                 
-                // 4. 모든 처리가 끝난 후 한 번만 알림
+                if (isFirstHire) SpawnVisual(index);
+
                 gameStatus.NotifyMoneyChanged();
                 helperStatus.NotifyHelperUpdated();
                 
-                Debug.Log($"{allHelpers[index].helperName} 레벨업! 현재 레벨: {helperStatus.GetLevel(index)}");
+                if (SaveManager.Instance != null && SaveManager.Instance.CurrentSlotIndex != -1)
+                {
+                    SaveManager.Instance.SaveGame(SaveManager.Instance.CurrentSlotIndex);
+                }
+                
                 return true;
             }
-            else
-            {
-                Debug.LogWarning("돈이 부족합니다!");
-                return false;
-            }
+            return false;
         }
 
         public double GetCurrentTotalHelperIncome()

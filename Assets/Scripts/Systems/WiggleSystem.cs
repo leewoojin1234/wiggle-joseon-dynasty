@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using Wiggle.Data;
 using Wiggle.Global;
@@ -7,20 +6,16 @@ namespace Wiggle.Systems
 {
     public class WiggleSystem : MonoBehaviour
     {
-        private GameStatus status;
-        private GameSettings settings;
-
-        private void Awake()
-        {
-            status ??= DataHub.Status;
-            settings ??= DataHub.Settings;
-        }
+        public GameStatus status => DataHub.Status;
+        public GameSettings settings => DataHub.Settings;
 
         void Start()
         {
             if (status != null && settings != null)
             {
-                status.Initialize(settings.wiggleBase);
+                // status.Initialize는 DataHub에서 관리하되, 안전장치로 유지
+                if (status.wigglePower < settings.wiggleBase)
+                    status.SetWiggle(settings.wiggleBase);
             }
         }
 

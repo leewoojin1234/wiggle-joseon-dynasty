@@ -12,11 +12,14 @@ namespace Wiggle.UI
         public TextMeshProUGUI dateText;
         public TextMeshProUGUI infoText;
         public Button loadButton;
+        public Button deleteButton; // 추가
 
         void Start()
         {
             RefreshUI();
             loadButton.onClick.AddListener(OnLoadClick);
+            if (deleteButton != null)
+                deleteButton.onClick.AddListener(OnDeleteClick);
         }
 
         public void RefreshUI()
@@ -28,6 +31,7 @@ namespace Wiggle.UI
                 dateText.text = data.lastSaveDate;
                 infoText.text = $"재산: {NumberFormatter.Format(data.money)} | 민심: {data.minSim:F0}";
                 loadButton.GetComponentInChildren<TextMeshProUGUI>().text = "계속하기";
+                if (deleteButton != null) deleteButton.gameObject.SetActive(true);
             }
             else
             {
@@ -35,8 +39,21 @@ namespace Wiggle.UI
                 dateText.text = "-";
                 infoText.text = "새로운 통치를 시작하십시오.";
                 loadButton.GetComponentInChildren<TextMeshProUGUI>().text = "새로 시작";
+                if (deleteButton != null) deleteButton.gameObject.SetActive(false);
             }
         }
+
+        private void OnDeleteClick()
+        {
+            DeleteConfirmPopupUI.Instance.Show(
+                $"{slotIndex + 1}번 슬롯의 기록을 소멸시키겠습니까?\n(다시는 되돌릴 수 없습니다!)",
+                () => {
+                    SaveManager.Instance.DeleteSave(slotIndex);
+                    RefreshUI();
+                }
+            );
+        }
+
 
         private void OnLoadClick()
         {

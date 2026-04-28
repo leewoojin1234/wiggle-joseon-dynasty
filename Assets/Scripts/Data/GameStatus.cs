@@ -19,6 +19,11 @@ namespace Wiggle.Data
             money = 0;
             wigglePower = baseWiggle;
             minSim = 50.0f;
+            
+            // 모든 UI에 초기화 알림
+            NotifyMoneyChanged();
+            OnWigglePowerChanged?.Invoke();
+            OnMinSimChanged?.Invoke();
         }
 
         public void AddMoney(double amount)

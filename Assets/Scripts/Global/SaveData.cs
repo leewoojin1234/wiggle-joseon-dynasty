@@ -12,6 +12,7 @@ namespace Wiggle.Global
         // GameStatus 정보
         public double money;
         public float minSim;
+        public float lastWigglePower; // 실룩 지수 추가 저장
 
         // HelperStatus 정보 (조력자 & 투자 레벨)
         public int[] helperLevels;
@@ -23,6 +24,7 @@ namespace Wiggle.Global
             lastSaveDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             money = 0;
             minSim = 50f;
+            lastWigglePower = 1.0f;
             helperLevels = new int[0];
             investmentLevels = new int[0];
         }

@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Begger
   m_EditorClassIdentifier: 
   helperName: "\uAC01\uC124\uC774"
+  visualPrefab: {fileID: 8174195013818459700, guid: 347229652deb84ef5a4b72d2fd942e2a, type: 3}
   baseCost: 10
   baseIncome: 1
   costMultiplier: 1.15

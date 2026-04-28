@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Younguijeong
   m_EditorClassIdentifier: 
   helperName: "\uC601\uC758\uC815"
+  visualPrefab: {fileID: 8174195013818459700, guid: 347229652deb84ef5a4b72d2fd942e2a, type: 3}
   baseCost: 75000000
   baseIncome: 10000000
   costMultiplier: 1.15
