@@ -26,7 +26,15 @@ namespace Wiggle.Systems
             // 실룩 지수 자연 감소 (감쇠)
             if (status.wigglePower > settings.wiggleBase)
             {
-                float newPower = status.wigglePower - (settings.wiggleDecayRate * Time.deltaTime);
+                float decayRate = settings.wiggleDecayRate;
+
+                // 영구 버프 적용 (감소율 경감)
+                if (DataHub.PermanentStatus != null)
+                {
+                    decayRate *= (1.0f - DataHub.PermanentStatus.GetWiggleDecayReduction());
+                }
+
+                float newPower = status.wigglePower - (decayRate * Time.deltaTime);
                 status.SetWiggle(Mathf.Max(newPower, settings.wiggleBase));
             }
         }

@@ -33,6 +33,12 @@ namespace Wiggle.Systems
 
             // 자동 돈 생산 계산
             double currentIncome = totalBaseIncome * status.wigglePower * sentimentModifier;
+
+            // 영구 버프 적용
+            if (DataHub.PermanentStatus != null)
+            {
+                currentIncome *= DataHub.PermanentStatus.GetIncomeMultiplier();
+            }
             
             // 이벤트를 발생시키지 않고 데이터만 직접 갱신
             status.money += currentIncome * Time.deltaTime;

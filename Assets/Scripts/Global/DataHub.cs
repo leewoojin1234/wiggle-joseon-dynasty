@@ -53,16 +53,39 @@ namespace Wiggle.Global
             }
         }
 
+        private static PermanentStatus _permanentStatus;
+        public static PermanentStatus PermanentStatus
+        {
+            get
+            {
+                if (_permanentStatus == null) _permanentStatus = Resources.Load<PermanentStatus>("Data/PermanentStatus");
+                if (_permanentStatus == null) Debug.LogError("[DataHub] Resources/Data/PermanentStatus 에셋이 없습니다!");
+                return _permanentStatus;
+            }
+        }
+
         /// <summary>
-        /// 모든 게임 상태를 완전히 초기값으로 되돌립니다.
+        /// 모든 게임 상태를 완전히 초기값으로 되돌립니다. (환생 시의 초기화와 다름)
         /// </summary>
         public static void ResetAllData()
         {
-            if (Status != null) Status.Initialize(Settings != null ? Settings.wiggleBase : 1.0f);
+            if (Status != null) Status.ResetToDefault(Settings != null ? Settings.wiggleBase : 1.0f);
             if (HelperStatus != null) HelperStatus.ResetData();
             if (InvestmentStatus != null) InvestmentStatus.ResetData();
-            
-            Debug.Log("[DataHub] 모든 데이터가 성공적으로 초기화되었습니다.");
+            // PermanentStatus는 지우지 않습니다 (사용자가 '데이터 완전 삭제'를 원할 때만 별도 호출)
+
+            Debug.Log("[DataHub] 모든 실시간 데이터가 초기화되었습니다.");
         }
+
+        /// <summary>
+        /// 영구 업그레이드 데이터를 포함한 모든 데이터를 삭제합니다.
+        /// </summary>
+        public static void WipeEverything()
+        {
+            ResetAllData();
+            if (PermanentStatus != null) PermanentStatus.ResetAll();
+            Debug.Log("[DataHub] 영구 데이터 포함 모든 기록이 소멸되었습니다.");
+        }
+
     }
 }

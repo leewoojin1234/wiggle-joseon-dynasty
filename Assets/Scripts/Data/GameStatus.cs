@@ -14,13 +14,23 @@ namespace Wiggle.Data
         public event Action OnWigglePowerChanged;
         public event Action OnMinSimChanged;
 
-        public void Initialize(float baseWiggle)
+        /// <summary>
+        /// 완전히 새 게임을 시작할 때 모든 데이터를 0(기본값)으로 초기화합니다.
+        /// </summary>
+        public void ResetToDefault(float baseWiggle)
         {
             money = 0;
             wigglePower = baseWiggle;
             minSim = 50.0f;
             
-            // 모든 UI에 초기화 알림
+            NotifyAllChanged();
+        }
+
+        /// <summary>
+        /// 데이터 변경 없이, 연결된 모든 UI에게 현재 값을 다시 그리라고 알립니다. (로드 시 사용)
+        /// </summary>
+        public void NotifyAllChanged()
+        {
             NotifyMoneyChanged();
             OnWigglePowerChanged?.Invoke();
             OnMinSimChanged?.Invoke();
