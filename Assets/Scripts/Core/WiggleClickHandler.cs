@@ -28,6 +28,8 @@ namespace Wiggle.Core
                 wiggleSystem.BoostWiggle();
             }
 
+            EconomySystem.Instance?.CollectRoyalWiggle();
+
             // 2. UX 피드백 실행
             PlayClickFeedback(eventData);
         }

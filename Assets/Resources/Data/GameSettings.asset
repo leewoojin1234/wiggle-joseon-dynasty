@@ -13,7 +13,12 @@ MonoBehaviour:
   m_Name: GameSettings
   m_EditorClassIdentifier: 
   baseIncomePerSecond: 1
+  clickBaseIncome: 1
   wiggleBase: 1
-  wiggleBoostPerClick: 0.1
-  wiggleMax: 2
+  wiggleBoostPerClick: 0.2
+  wiggleMax: 5
   wiggleDecayRate: 0.3
+  overWiggleThreshold: 3.5
+  overWiggleSentimentLossPerSecond: 0.25
+  taxIncomeMultiplier: 100
+  taxMinSimPenalty: -10

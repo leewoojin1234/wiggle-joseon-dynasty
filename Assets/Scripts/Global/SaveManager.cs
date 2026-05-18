@@ -37,6 +37,7 @@ namespace Wiggle.Global
             PermanentStatus perm = DataHub.PermanentStatus;
 
             SaveData data = new SaveData($"슬롯 {slotIndex + 1}");
+            data.lastSaveUtcTicks = DateTime.UtcNow.Ticks;
             data.money = status.money;
             data.minSim = status.minSim;
             data.lastWigglePower = status.wigglePower;
@@ -72,6 +73,9 @@ namespace Wiggle.Global
             {
                 string json = File.ReadAllText(path);
                 SaveData data = JsonUtility.FromJson<SaveData>(json);
+                double offlineSeconds = 0;
+                if (data.lastSaveUtcTicks > 0)
+                    offlineSeconds = Math.Max(0, (DateTime.UtcNow.Ticks - data.lastSaveUtcTicks) / (double)TimeSpan.TicksPerSecond);
 
                 // 핵심 수치 복구
                 DataHub.Status.money = data.money;
@@ -99,6 +103,7 @@ namespace Wiggle.Global
                 DataHub.Status.NotifyAllChanged(); 
                 DataHub.HelperStatus.NotifyDataLoaded();
                 DataHub.InvestmentStatus.NotifyDataLoaded();
+                ChoiceEventSystem.Instance?.GrantOfflineChoices(offlineSeconds);
                 
                 Debug.Log($"[SaveManager] 슬롯 {slotIndex} 로드 성공");
                 return true;

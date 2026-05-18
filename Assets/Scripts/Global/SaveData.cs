@@ -8,6 +8,7 @@ namespace Wiggle.Global
     {
         public string saveName;
         public string lastSaveDate;
+        public long lastSaveUtcTicks;
         
         // GameStatus 정보
         public double money;
@@ -29,6 +30,7 @@ namespace Wiggle.Global
         {
             saveName = name;
             lastSaveDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
+            lastSaveUtcTicks = DateTime.UtcNow.Ticks;
             money = 0;
             minSim = 50f;
             lastWigglePower = 1.0f;

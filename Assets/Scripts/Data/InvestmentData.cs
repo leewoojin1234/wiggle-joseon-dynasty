@@ -2,12 +2,27 @@ using UnityEngine;
 
 namespace Wiggle.Data
 {
+    public enum InvestmentMeansType
+    {
+        Agriculture,
+        RealEstate,
+        Merchant,
+        Relief
+    }
+
     [CreateAssetMenu(fileName = "InvestmentData", menuName = "Wiggle/InvestmentData")]
     public class InvestmentData : ScriptableObject
     {
         [Header("기본 정보")]
         public string investmentName;
         public string description;
+        public InvestmentMeansType meansType = InvestmentMeansType.Agriculture;
+
+        [Header("자동 생산 수단")]
+        public double basePassiveIncome;
+        public double passiveIncomePerLevel;
+        public float purchaseMinSim;
+        public float passiveIncomeGrowthPerLevel;
 
         [Header("기본 수치 (레벨 1 기준)")]
         public double baseCost;          // 투자 비용
@@ -40,6 +55,18 @@ namespace Wiggle.Data
         }
 
         public double GetSuccessIncome(int level) => baseSuccessIncome + (incomePerLevel * (level - 1));
+
+        public double GetPassiveIncome(int level)
+        {
+            if (level <= 0) return 0;
+
+            double linearIncome = basePassiveIncome + (passiveIncomePerLevel * (level - 1));
+            float growthMultiplier = passiveIncomeGrowthPerLevel > 0
+                ? Mathf.Pow(1f + passiveIncomeGrowthPerLevel, level - 1)
+                : 1f;
+
+            return linearIncome * level * growthMultiplier;
+        }
 
         public float GetSuccessRate(int level)
         {

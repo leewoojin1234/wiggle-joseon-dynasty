@@ -8,6 +8,7 @@ namespace Wiggle.Systems
     {
         public GameStatus status => DataHub.Status;
         public GameSettings settings => DataHub.Settings;
+        public SentimentSystem sentimentSystem;
 
         void Start()
         {
@@ -36,6 +37,12 @@ namespace Wiggle.Systems
 
                 float newPower = status.wigglePower - (decayRate * Time.deltaTime);
                 status.SetWiggle(Mathf.Max(newPower, settings.wiggleBase));
+            }
+
+            if (status.wigglePower > settings.overWiggleThreshold && settings.overWiggleSentimentLossPerSecond > 0)
+            {
+                var sSystem = sentimentSystem != null ? sentimentSystem : FindObjectOfType<SentimentSystem>();
+                sSystem?.AddMinSim(-settings.overWiggleSentimentLossPerSecond * Time.deltaTime);
             }
         }
 

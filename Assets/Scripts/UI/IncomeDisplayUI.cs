@@ -66,28 +66,15 @@ namespace Wiggle.UI
         {
             if (incomeText == null || status == null || settings == null) return;
 
-            // EconomySystem과 동일한 공식으로 현재 초당 수익 계산
-            float sentimentModifier = CalculateSentimentModifier(status.minSim);
-
             var hSystem = helperSystem != null ? helperSystem : Systems.HelperSystem.Instance;
-            double helperIncome = (hSystem != null) ? hSystem.GetCurrentTotalHelperIncome() : 0;
-
-            // 투자 수익은 완료 시 직접 지급되므로 표시 수익 합산에서 제외
-            double totalBaseIncome = settings.baseIncomePerSecond + helperIncome;
-
-            double totalIncomePerSecond = totalBaseIncome * status.wigglePower * sentimentModifier;
+            double totalIncomePerSecond = Systems.EconomyFormula.GetIncomePerSecond(
+                status,
+                settings,
+                hSystem,
+                Systems.InvestmentSystem.Instance);
 
             // NumberFormatter 적용
             incomeText.text = $"{prefix}{NumberFormatter.Format(totalIncomePerSecond)}{suffix}";
-        }
-
-        // 민심 보정치 계산 (EconomySystem의 로직과 동일)
-        private float CalculateSentimentModifier(float minSim)
-        {
-            if (minSim >= 50f)
-                return Mathf.Lerp(1.0f, 1.5f, (minSim - 50f) / 50f);
-            else
-                return Mathf.Lerp(0.2f, 1.0f, minSim / 50f);
         }
     }
 }

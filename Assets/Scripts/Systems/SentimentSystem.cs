@@ -33,17 +33,9 @@ namespace Wiggle.Systems
             }
             else if (currentMinSim <= 20f)
             {
-                // 민심 20 이하부터 확률적 반란 (민심이 낮을수록 확률 증가)
-                // 예: 민심 10이면 약 10% 확률로 반란
-                float rebellionChance = (20f - currentMinSim) / 100f; 
-                if (Random.Range(0f, 1f) < rebellionChance)
-                {
-                    ReincarnationManager.Instance?.TriggerRebellion();
-                }
-                else
-                {
-                    Debug.LogWarning($"민심이 흉흉합니다! (반란 확률: {rebellionChance * 100:F1}%)");
-                }
+                // 방치형 클리커에서는 저민심이 즉시 랜덤 처벌이 되면 플레이 감각이 무너집니다.
+                // 20 이하는 경제 효율 하락과 경고 상태로만 두고, 반란은 민심 0에서 확정 발생시킵니다.
+                Debug.LogWarning("민심이 흉흉합니다! 수익 효율이 크게 떨어졌고, 민심 0이 되면 반란이 발생합니다.");
             }
         }
     }

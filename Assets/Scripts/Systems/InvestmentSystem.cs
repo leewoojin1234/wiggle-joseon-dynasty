@@ -94,6 +94,12 @@ namespace Wiggle.Systems
                 gameStatus.money -= upgradeCost;
                 investmentStatus.helperLevels[index]++;
                 
+                var sentimentSystem = FindObjectOfType<SentimentSystem>();
+                if (sentimentSystem != null)
+                    sentimentSystem.AddMinSim(allInvestments[index].purchaseMinSim);
+                else
+                    gameStatus.AddMinSim(allInvestments[index].purchaseMinSim);
+                
                 gameStatus.NotifyMoneyChanged();
                 investmentStatus.NotifyHelperUpdated();
                 
@@ -104,6 +110,20 @@ namespace Wiggle.Systems
                 return true;
             }
             return false;
+        }
+
+        public double GetCurrentTotalPassiveIncome()
+        {
+            if (investmentStatus == null || allInvestments == null) return 0;
+
+            double total = 0;
+            for (int i = 0; i < allInvestments.Length; i++)
+            {
+                if (allInvestments[i] == null) continue;
+                total += allInvestments[i].GetPassiveIncome(investmentStatus.GetLevel(i));
+            }
+
+            return total;
         }
 
         private void CompleteInvestment(ActiveInvestment activeInv)

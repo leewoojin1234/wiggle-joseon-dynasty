@@ -14,6 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   investmentName: "\uC6D0\uC591 \uC0C1\uB2E8 \uD30C\uACAC"
   description: 
+  meansType: 2
+  basePassiveIncome: 30
+  passiveIncomePerLevel: 20
+  purchaseMinSim: -1
+  passiveIncomeGrowthPerLevel: 0.08
   baseCost: 300000
   baseDuration: 60
   baseSuccessIncome: 5000000
