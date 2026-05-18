@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c565954c484ff48f3e1b20e99c2cf9, type: 3}
+  m_Name: PeoplePetition
+  m_EditorClassIdentifier: 
+  petitionId: people_petition_01
+  storyArc: 4
+  chapter: 1
+  oneShot: 0
+  title: "\uBC31\uC131 \uCCAD\uC6D0"
+  description: "\uAD76\uC8FC\uB9B0 \uBC31\uC131\uB4E4\uC774 \uAD81 \uC55E\uC5D0 \uBAA8\uC5EC \uAD6C\uD73C\uC744 \uCCAD\uD569\uB2C8\uB2E4. \uAC04\uB2E8\uD788 \uB3CC\uB824\uBCF4\uB0B4\uBA74 \uAD6D\uACE0\uB294 \uCC28\uC624\uB974\uC9C0\uB9CC \uBBFC\uC2EC\uC740 \uD754\uB4E4\uB9BD\uB2C8\uB2E4."
+  optionA:
+    label: "\uAD6C\uD73C \uC2B9\uC778"
+    incomeSeconds: -25
+    minSimDelta: 7
+    wiggleDelta: 0
+  optionB:
+    label: "\uC138\uAE08\uC73C\uB85C \uB3CC\uB824\uBCF4\uB0B4\uAE30"
+    incomeSeconds: 35
+    minSimDelta: -6
+    wiggleDelta: 0

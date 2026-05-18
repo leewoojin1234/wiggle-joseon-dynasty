@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c565954c484ff48f3e1b20e99c2cf9, type: 3}
+  m_Name: CorruptOfficial
+  m_EditorClassIdentifier: 
+  petitionId: corrupt_official_01
+  storyArc: 3
+  chapter: 1
+  oneShot: 0
+  title: "\uD0D0\uAD00\uC624\uB9AC \uBCF4\uACE0"
+  description: "\uAC10\uCC30\uAD00\uC774 \uC228\uACA8\uC9C4 \uC7AC\uBB3C\uC744 \uBC1C\uACAC\uD588\uB2E4\uB294 \uBC00\uC11C\uB97C \uC62C\uB838\uC2B5\uB2C8\uB2E4. \uACF5\uC815\uD558\uAC8C \uD658\uC6D0\uD560 \uC218\uB3C4, \uAD6D\uACE0\uB9CC \uCC44\uC6B8 \uC218\uB3C4 \uC788\uC2B5\uB2C8\uB2E4."
+  optionA:
+    label: "\uBAB0\uC218\uD574 \uD658\uC6D0"
+    incomeSeconds: 25
+    minSimDelta: 2
+    wiggleDelta: 0
+  optionB:
+    label: "\uAD6D\uACE0\uB9CC \uCC44\uC6B0\uAE30"
+    incomeSeconds: 60
+    minSimDelta: -5
+    wiggleDelta: 0

@@ -13,6 +13,7 @@ namespace Wiggle.UI
         public TextMeshProUGUI infoText;
         public Button loadButton;
         public Button deleteButton; // 추가
+        public StartScreenUI startScreen;
 
         void Start()
         {
@@ -67,7 +68,26 @@ namespace Wiggle.UI
                 SaveManager.Instance.NewGame(slotIndex);
             }
             
-            // 시작 화면 UI 닫기
+            CloseStartScreen();
+        }
+
+        private void CloseStartScreen()
+        {
+            StartScreenUI screen = startScreen;
+
+            if (screen == null)
+                screen = GetComponentInParent<StartScreenUI>();
+
+            if (screen == null)
+                screen = StartScreenUI.Instance;
+
+            if (screen != null)
+            {
+                screen.EnterGame();
+                return;
+            }
+
+            // 기존 씬 호환용 fallback입니다. StartScreenUI를 붙이면 이 경로는 사용되지 않습니다.
             if (gameObject.transform.parent != null)
                 gameObject.transform.parent.gameObject.SetActive(false);
         }

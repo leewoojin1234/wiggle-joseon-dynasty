@@ -1,7 +1,7 @@
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using Wiggle.Global;
+using Wiggle.Data;
 using Wiggle.Systems;
 
 namespace Wiggle.UI
@@ -25,10 +25,13 @@ namespace Wiggle.UI
         public Button optionBButton;
 
         private ChoiceEventSystem eventSystem;
+        private CanvasGroup panelCanvasGroup;
 
         private void Awake()
         {
             eventSystem = ChoiceEventSystem.Instance;
+            if (panelRoot != null)
+                panelCanvasGroup = panelRoot.GetComponent<CanvasGroup>();
         }
 
         private void OnEnable()
@@ -63,15 +66,14 @@ namespace Wiggle.UI
         {
             if (eventSystem == null)
             {
-                if (panelRoot != null) panelRoot.SetActive(false);
+                SetPanelVisible(false);
                 return;
             }
 
-            ChoiceEventDefinition pending = eventSystem.PendingEvent;
+            PetitionEventData pending = eventSystem.PendingEvent;
             bool hasEvent = pending != null;
 
-            if (panelRoot != null)
-                panelRoot.SetActive(hasEvent);
+            SetPanelVisible(hasEvent);
 
             if (!hasEvent) return;
 
@@ -83,7 +85,7 @@ namespace Wiggle.UI
             BindOption(pending.optionB, optionBLabelText, optionBEffectText);
         }
 
-        private void BindOption(ChoiceEventOption option, TextMeshProUGUI labelText, TextMeshProUGUI effectText)
+        private void BindOption(PetitionOption option, TextMeshProUGUI labelText, TextMeshProUGUI effectText)
         {
             if (option == null) return;
 
@@ -94,7 +96,7 @@ namespace Wiggle.UI
                 effectText.text = FormatEffect(option);
         }
 
-        private string FormatEffect(ChoiceEventOption option)
+        private string FormatEffect(PetitionOption option)
         {
             string money = option.incomeSeconds >= 0
                 ? $"+{option.incomeSeconds:0}초 수익"
@@ -109,6 +111,24 @@ namespace Wiggle.UI
                 : $" / 실룩 {(option.wiggleDelta > 0 ? "+" : "")}{option.wiggleDelta:0.0}";
 
             return $"{money} / {minSim}{wiggle}";
+        }
+
+        private void SetPanelVisible(bool visible)
+        {
+            if (panelRoot == null) return;
+
+            if (panelRoot == gameObject)
+            {
+                if (panelCanvasGroup == null)
+                    panelCanvasGroup = panelRoot.GetComponent<CanvasGroup>() ?? panelRoot.AddComponent<CanvasGroup>();
+
+                panelCanvasGroup.alpha = visible ? 1f : 0f;
+                panelCanvasGroup.interactable = visible;
+                panelCanvasGroup.blocksRaycasts = visible;
+                return;
+            }
+
+            panelRoot.SetActive(visible);
         }
     }
 }
