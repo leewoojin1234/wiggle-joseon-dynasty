@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: BumperHarvest
   m_EditorClassIdentifier: 
   petitionId: bumper_harvest_01
-  storyArc: 1
-  chapter: 1
-  oneShot: 0
   title: "\uD48D\uB144"
   description: "\uAC01 \uACE0\uC744\uC5D0\uC11C \uACE1\uC2DD\uC774 \uB118\uCCD0\uB09C\uB2E4\uB294 \uC7A5\uACC4\uAC00 \uC62C\uB77C\uC654\uC2B5\uB2C8\uB2E4. \uC774 \uD48D\uC694\uB97C \uAD6D\uACE0\uC5D0 \uC313\uC744\uC9C0, \uBC31\uC131\uC5D0\uAC8C \uD480\uC9C0 \uACB0\uC815\uD558\uC2ED\uC2DC\uC624."
   optionA:

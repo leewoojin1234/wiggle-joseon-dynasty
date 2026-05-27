@@ -41,9 +41,8 @@ namespace Wiggle.UI
         {
             if (status == null || settings == null) return;
 
-            // 현재 초당 수익 계산 (EconomySystem과 동일 로직)
             float multiplier = GetTaxMultiplier();
-            double taxReward = CalculateCurrentIncome() * multiplier;
+            double taxReward = CalculateTaxBaseIncome() * multiplier;
 
             if (taxAmountText != null)
                 taxAmountText.text = $"+{NumberFormatter.Format(taxReward)} 냥";
@@ -52,19 +51,16 @@ namespace Wiggle.UI
                 penaltyText.text = $"민심 {GetTaxPenalty():F0}";
         }
 
-        private double CalculateCurrentIncome()
+        private double CalculateTaxBaseIncome()
         {
-            if (EconomySystem.Instance != null)
-                return EconomySystem.Instance.CurrentIncomePerSecond;
-
-            return EconomyFormula.GetIncomePerSecond(status, settings, HelperSystem.Instance, InvestmentSystem.Instance);
+            return EconomyFormula.GetTaxBaseIncome(status, settings, HelperSystem.Instance, InvestmentSystem.Instance);
         }
 
         public void OnPointerDown(PointerEventData eventData)
         {
             if (status == null) return;
 
-            double taxReward = CalculateCurrentIncome() * GetTaxMultiplier();
+            double taxReward = CalculateTaxBaseIncome() * GetTaxMultiplier();
 
             // 1. 코어 로직 (폭군 버튼)
             status.AddMoney(taxReward);

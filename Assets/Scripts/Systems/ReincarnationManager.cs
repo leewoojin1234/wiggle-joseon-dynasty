@@ -77,5 +77,10 @@ namespace Wiggle.Systems
             
             return Math.Max(1, points);
         }
+
+        public long PreviewPrestigePoints(bool isRebellion)
+        {
+            return CalculatePrestigePoints(isRebellion);
+        }
     }
 }

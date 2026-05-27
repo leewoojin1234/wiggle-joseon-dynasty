@@ -6,7 +6,7 @@ using Wiggle.Systems;
 
 namespace Wiggle.UI
 {
-    public class ChoiceEventPanelUI : MonoBehaviour
+    public class PetitionPanelUI : MonoBehaviour
     {
         [Header("Root")]
         public GameObject panelRoot;
@@ -24,33 +24,33 @@ namespace Wiggle.UI
         public Button optionAButton;
         public Button optionBButton;
 
-        private ChoiceEventSystem eventSystem;
+        private PetitionSystem petitionSystem;
         private CanvasGroup panelCanvasGroup;
 
         private void Awake()
         {
-            eventSystem = ChoiceEventSystem.Instance;
+            petitionSystem = PetitionSystem.Instance;
             if (panelRoot != null)
                 panelCanvasGroup = panelRoot.GetComponent<CanvasGroup>();
         }
 
         private void OnEnable()
         {
-            eventSystem = eventSystem != null ? eventSystem : ChoiceEventSystem.Instance;
+            petitionSystem = petitionSystem != null ? petitionSystem : PetitionSystem.Instance;
 
-            if (eventSystem != null)
-                eventSystem.OnPendingEventChanged += Refresh;
+            if (petitionSystem != null)
+                petitionSystem.OnPendingEventChanged += Refresh;
 
             if (optionAButton != null)
             {
                 optionAButton.onClick.RemoveAllListeners();
-                optionAButton.onClick.AddListener(() => eventSystem?.ChooseOptionA());
+                optionAButton.onClick.AddListener(() => petitionSystem?.ChooseOptionA());
             }
 
             if (optionBButton != null)
             {
                 optionBButton.onClick.RemoveAllListeners();
-                optionBButton.onClick.AddListener(() => eventSystem?.ChooseOptionB());
+                optionBButton.onClick.AddListener(() => petitionSystem?.ChooseOptionB());
             }
 
             Refresh();
@@ -58,19 +58,19 @@ namespace Wiggle.UI
 
         private void OnDisable()
         {
-            if (eventSystem != null)
-                eventSystem.OnPendingEventChanged -= Refresh;
+            if (petitionSystem != null)
+                petitionSystem.OnPendingEventChanged -= Refresh;
         }
 
         private void Refresh()
         {
-            if (eventSystem == null)
+            if (petitionSystem == null)
             {
                 SetPanelVisible(false);
                 return;
             }
 
-            PetitionEventData pending = eventSystem.PendingEvent;
+            PetitionEventData pending = petitionSystem.PendingEvent;
             bool hasEvent = pending != null;
 
             SetPanelVisible(hasEvent);
@@ -79,7 +79,7 @@ namespace Wiggle.UI
 
             if (titleText != null) titleText.text = pending.title;
             if (descriptionText != null) descriptionText.text = pending.description;
-            if (queuedCountText != null) queuedCountText.text = $"대기 {eventSystem.QueuedEventCount}";
+            if (queuedCountText != null) queuedCountText.text = "상소 도착";
 
             BindOption(pending.optionA, optionALabelText, optionAEffectText);
             BindOption(pending.optionB, optionBLabelText, optionBEffectText);

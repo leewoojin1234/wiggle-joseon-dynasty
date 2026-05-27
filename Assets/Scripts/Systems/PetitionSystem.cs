@@ -5,14 +5,13 @@ using Wiggle.Global;
 
 namespace Wiggle.Systems
 {
-    public class ChoiceEventSystem : MonoBehaviour
+    public class PetitionSystem : MonoBehaviour
     {
-        public static ChoiceEventSystem Instance { get; private set; }
+        public static PetitionSystem Instance { get; private set; }
 
         [Header("Timing")]
         public float firstEventDelaySeconds = 45f;
         public float eventIntervalSeconds = 180f;
-        public int maxQueuedEvents = 3;
 
         [Header("Petitions")]
         [Tooltip("비워두면 Resources/Data/Petitions 아래의 PetitionEventData를 자동으로 읽습니다.")]
@@ -20,12 +19,10 @@ namespace Wiggle.Systems
 
         [Header("Runtime")]
         [SerializeField] private PetitionEventData pendingEvent;
-        [SerializeField] private int queuedEventCount;
 
         private float eventTimer;
 
         public PetitionEventData PendingEvent => pendingEvent;
-        public int QueuedEventCount => queuedEventCount;
         public bool HasPendingEvent => pendingEvent != null;
 
         public event Action OnPendingEventChanged;
@@ -46,20 +43,17 @@ namespace Wiggle.Systems
             eventTimer -= Time.deltaTime;
             if (eventTimer <= 0f)
             {
-                QueueEvent();
+                ShowPetition();
                 eventTimer = eventIntervalSeconds;
             }
         }
 
-        public void GrantOfflineChoices(double offlineSeconds)
+        public void GrantOfflinePetition(double offlineSeconds)
         {
             if (offlineSeconds < eventIntervalSeconds) return;
 
-            int earned = Mathf.Clamp((int)(offlineSeconds / eventIntervalSeconds), 1, maxQueuedEvents);
-            queuedEventCount = Mathf.Clamp(queuedEventCount + earned, 0, maxQueuedEvents);
-
             if (!HasPendingEvent)
-                QueueEvent();
+                ShowPetition();
         }
 
         public void ChooseOptionA() => ResolveOption(pendingEvent?.optionA);
@@ -72,17 +66,11 @@ namespace Wiggle.Systems
             ApplyOption(option);
 
             pendingEvent = null;
-            queuedEventCount = Mathf.Max(0, queuedEventCount - 1);
-
-            if (queuedEventCount > 0)
-                pendingEvent = PickRandomEvent();
-
             OnPendingEventChanged?.Invoke();
         }
 
-        private void QueueEvent()
+        private void ShowPetition()
         {
-            queuedEventCount = Mathf.Clamp(queuedEventCount + 1, 0, maxQueuedEvents);
             if (!HasPendingEvent)
                 pendingEvent = PickRandomEvent();
 
@@ -103,7 +91,7 @@ namespace Wiggle.Systems
             GameSettings settings = DataHub.Settings;
             if (status == null || settings == null) return;
 
-            double incomePerSecond = EconomyFormula.GetIncomePerSecond(
+            double incomePerSecond = EconomyFormula.GetNonWiggleIncomePerSecond(
                 status,
                 settings,
                 HelperSystem.Instance,

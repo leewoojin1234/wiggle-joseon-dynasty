@@ -1,4 +1,5 @@
 using System;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Wiggle.Data;
@@ -14,6 +15,7 @@ namespace Wiggle.UI
         [Header("UI Reference")]
         public Slider gaugeSlider;
         public Image fillImage;
+        public TextMeshProUGUI valueText;
 
         [Header("Settings")]
         public Color highSentimentColor = Color.green;
@@ -59,6 +61,8 @@ namespace Wiggle.UI
 
             float currentMinSim = status.minSim;
             gaugeSlider.value = currentMinSim;
+            if (valueText != null)
+                valueText.text = $"{Mathf.RoundToInt(currentMinSim)}/100";
 
             // 민심 수치에 따른 색상 변경 피드백
             if (fillImage != null)

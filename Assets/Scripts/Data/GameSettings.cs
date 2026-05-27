@@ -22,5 +22,9 @@ namespace Wiggle.Data
         [Header("Tax Settings")]
         public float taxIncomeMultiplier = 100f;
         public float taxMinSimPenalty = -10f;
+
+        [Header("Ruler Life")]
+        [Tooltip("한 왕의 통치 수명입니다. MVP에서는 실제 초 단위로 두고 밸런싱합니다.")]
+        public float rulerLifeSpanSeconds = 600f;
     }
 }

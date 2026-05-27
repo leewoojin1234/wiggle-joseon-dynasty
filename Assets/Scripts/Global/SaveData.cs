@@ -14,6 +14,9 @@ namespace Wiggle.Global
         public double money;
         public float minSim;
         public float lastWigglePower; 
+        public float rulerAgeSeconds;
+        public float rulerLifeSpanSeconds;
+        public bool generationEndingPending;
 
         // HelperStatus 정보 (조력자 & 투자 레벨)
         public int[] helperLevels;
@@ -34,6 +37,9 @@ namespace Wiggle.Global
             money = 0;
             minSim = 50f;
             lastWigglePower = 1.0f;
+            rulerAgeSeconds = 0f;
+            rulerLifeSpanSeconds = 600f;
+            generationEndingPending = false;
             helperLevels = new int[0];
             investmentLevels = new int[0];
 

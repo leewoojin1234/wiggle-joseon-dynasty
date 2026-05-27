@@ -36,10 +36,33 @@ namespace Wiggle.Systems
             return income;
         }
 
+        public static double ApplyRealmMultipliersWithoutWiggle(double baseProduction, GameStatus status)
+        {
+            if (status == null) return 0;
+
+            double income = baseProduction * GetSentimentModifier(status.minSim);
+
+            if (DataHub.PermanentStatus != null)
+                income *= DataHub.PermanentStatus.GetIncomeMultiplier();
+
+            return income;
+        }
+
         public static double GetIncomePerSecond(GameStatus status, GameSettings settings, HelperSystem helperSystem, InvestmentSystem investmentSystem)
         {
             double baseProduction = GetPassiveBaseIncome(settings, helperSystem, investmentSystem);
             return ApplyCoreMultipliers(baseProduction, status);
+        }
+
+        public static double GetNonWiggleIncomePerSecond(GameStatus status, GameSettings settings, HelperSystem helperSystem, InvestmentSystem investmentSystem)
+        {
+            double baseProduction = GetPassiveBaseIncome(settings, helperSystem, investmentSystem);
+            return ApplyRealmMultipliersWithoutWiggle(baseProduction, status);
+        }
+
+        public static double GetTaxBaseIncome(GameStatus status, GameSettings settings, HelperSystem helperSystem, InvestmentSystem investmentSystem)
+        {
+            return GetNonWiggleIncomePerSecond(status, settings, helperSystem, investmentSystem);
         }
 
         public static double GetClickIncome(GameStatus status, GameSettings settings)

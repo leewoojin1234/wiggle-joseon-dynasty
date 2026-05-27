@@ -41,6 +41,9 @@ namespace Wiggle.Global
             data.money = status.money;
             data.minSim = status.minSim;
             data.lastWigglePower = status.wigglePower;
+            data.rulerAgeSeconds = 0f;
+            data.rulerLifeSpanSeconds = DataHub.Settings != null ? DataHub.Settings.rulerLifeSpanSeconds : 600f;
+            data.generationEndingPending = false;
             
             if (helperStatus != null && helperStatus.helperLevels != null) 
                 data.helperLevels = (int[])helperStatus.helperLevels.Clone();
@@ -81,6 +84,8 @@ namespace Wiggle.Global
                 DataHub.Status.money = data.money;
                 DataHub.Status.minSim = data.minSim;
                 DataHub.Status.wigglePower = data.lastWigglePower > 0 ? data.lastWigglePower : DataHub.Settings.wiggleBase;
+                float lifeSpanSeconds = data.rulerLifeSpanSeconds > 0 ? data.rulerLifeSpanSeconds : DataHub.Settings.rulerLifeSpanSeconds;
+                DataHub.Status.SetRulerLife(0f, lifeSpanSeconds, false);
                 
                 // 조력자/투자 레벨 복구
                 if (data.helperLevels != null)
@@ -103,7 +108,7 @@ namespace Wiggle.Global
                 DataHub.Status.NotifyAllChanged(); 
                 DataHub.HelperStatus.NotifyDataLoaded();
                 DataHub.InvestmentStatus.NotifyDataLoaded();
-                ChoiceEventSystem.Instance?.GrantOfflineChoices(offlineSeconds);
+                PetitionSystem.Instance?.GrantOfflinePetition(offlineSeconds);
                 
                 Debug.Log($"[SaveManager] 슬롯 {slotIndex} 로드 성공");
                 return true;

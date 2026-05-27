@@ -24,6 +24,10 @@ namespace Wiggle.UI
 
         void OnEnable()
         {
+            status ??= DataHub.Status;
+            if (moneyText == null)
+                moneyText = GetComponent<TextMeshProUGUI>();
+
             if (status != null)
             {
                 // 데이터 변경 시 호출될 이벤트 구독
@@ -41,18 +45,26 @@ namespace Wiggle.UI
                 status.OnMoneyChanged -= UpdateMoneyDisplay;
             }
         }
-void Update()
-{
-    UpdateMoneyDisplay();
-}
 
-private void UpdateMoneyDisplay()
-{
-    if (moneyText == null || status == null) return;
+        void Update()
+        {
+            UpdateMoneyDisplay();
+        }
 
-    // NumberFormatter 적용
-    moneyText.text = $"{prefix}{NumberFormatter.Format(status.money)}{suffix}";
-}
+        private void UpdateMoneyDisplay()
+        {
+            if (moneyText == null || status == null) return;
+
+            moneyText.text = $"{prefix}{FormatMoney(status.money)}{suffix}";
+        }
+
+        private string FormatMoney(double value)
+        {
+            if (value > 0d && value < 100d)
+                return value.ToString("0.0");
+
+            return NumberFormatter.Format(value);
+        }
 
     }
 }

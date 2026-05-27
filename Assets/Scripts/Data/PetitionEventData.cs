@@ -3,15 +3,6 @@ using UnityEngine;
 
 namespace Wiggle.Data
 {
-    public enum PetitionStoryArc
-    {
-        Common,
-        Agriculture,
-        Taxation,
-        Corruption,
-        People
-    }
-
     [Serializable]
     public class PetitionOption
     {
@@ -24,11 +15,8 @@ namespace Wiggle.Data
     [CreateAssetMenu(fileName = "PetitionEvent", menuName = "Wiggle/Petition Event")]
     public class PetitionEventData : ScriptableObject
     {
-        [Header("Story")]
+        [Header("Identity")]
         public string petitionId;
-        public PetitionStoryArc storyArc = PetitionStoryArc.Common;
-        public int chapter = 1;
-        public bool oneShot;
 
         [Header("Text")]
         public string title;

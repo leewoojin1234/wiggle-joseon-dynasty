@@ -13,6 +13,8 @@ namespace Wiggle.UI
         public TextMeshProUGUI nameText;
         public TextMeshProUGUI levelText;
         public TextMeshProUGUI costText;
+        public TextMeshProUGUI incomeText;
+        public TextMeshProUGUI effectText;
         public Button upgradeButton;
         public CanvasGroup canvasGroup; // 잠금 상태 표현용
 
@@ -41,11 +43,29 @@ namespace Wiggle.UI
 
             int level = _system.helperStatus.GetLevel(_index);
             double cost = _data.GetCost(level);
+            double currentIncome = _data.GetTotalIncome(level);
+            double incomePerLevel = _data.baseIncome;
 
-            nameText.text = _data.helperName;
-            levelText.text = $"Lv. {level}";
-            // NumberFormatter 적용
-            costText.text = $"{NumberFormatter.Format(cost)} 냥";
+            if (nameText != null)
+                nameText.text = _data.helperName;
+
+            if (levelText != null)
+                levelText.text = $"Lv. {level}";
+
+            if (incomeText != null)
+                incomeText.text = $"수익: {NumberFormatter.Format(currentIncome)}/s";
+
+            if (effectText != null)
+                effectText.text = $"효과: +{NumberFormatter.Format(incomePerLevel)}/Lv";
+
+            if (costText != null)
+            {
+                string costLine = $"{NumberFormatter.Format(cost)} 냥";
+                if (incomeText == null || effectText == null)
+                    costLine = $"{costLine}\n{FormatIncomeSummary(currentIncome, incomePerLevel)}";
+
+                costText.text = costLine;
+            }
 
             // 초기 상태 설정
             RefreshButtonState();
@@ -78,6 +98,12 @@ namespace Wiggle.UI
             // 2. 돈이 충분한지 실시간 체크하여 버튼 활성화
             upgradeButton.interactable = isUnlocked && (_system.gameStatus.money >= cost);
         }
+
+        private string FormatIncomeSummary(double currentIncome, double incomePerLevel)
+        {
+            return $"수익 {NumberFormatter.Format(currentIncome)}/s  +{NumberFormatter.Format(incomePerLevel)}/Lv";
+        }
+
         private void OnUpgradeClick()
         {
             if (_system.TryUpgradeHelper(_index))

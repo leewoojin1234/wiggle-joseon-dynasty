@@ -23,8 +23,9 @@ namespace Wiggle.Controllers
         public Sprite danceSprite;      
 
         [Header("Animation Settings")]
-        [Tooltip("좌우 반전이 교체되는 속도")]
+        [Tooltip("기본 실룩 파워일 때 좌우 반전이 교체되는 속도")]
         public float wiggleSpeed = 5f; 
+        private float wigglePhase;
 
         void Awake()
         {
@@ -49,8 +50,11 @@ namespace Wiggle.Controllers
                 // 1. 춤추는 이미지로 변경
                 kingImage.sprite = danceSprite;
 
-                // 2. 시간에 따라 Y축 회전을 0도 <-> 180도로 전환
-                float pingPong = Mathf.PingPong(Time.time * wiggleSpeed, 1f);
+                // 2. 현재 실룩 파워에 비례해서 Y축 회전을 0도 <-> 180도로 전환
+                float basePower = Mathf.Max(0.01f, settings.wiggleBase);
+                float speedMultiplier = status.wigglePower / basePower;
+                wigglePhase += Time.deltaTime * wiggleSpeed * speedMultiplier;
+                float pingPong = Mathf.PingPong(wigglePhase, 1f);
                 
                 if (pingPong > 0.5f)
                 {
@@ -69,6 +73,7 @@ namespace Wiggle.Controllers
                 kingImage.sprite = idleSprite;
                 
                 // 2. 회전값 원상 복구 (이거 안 하면 가만히 있을 때도 뒤집혀 있을 수 있음)
+                wigglePhase = 0f;
                 rectTransform.localRotation = Quaternion.Euler(0f, 0f, 0f);
             }
         }

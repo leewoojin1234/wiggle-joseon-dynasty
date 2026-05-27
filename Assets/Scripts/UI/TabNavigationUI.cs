@@ -10,47 +10,51 @@ namespace Wiggle.UI
         public struct TabMapping
         {
             public Button tabButton;
+            public TabButtonVisual tabVisual;
             public GameObject panel;
             public string tabName;
         }
 
-        public List<TabMapping> tabs;
-        public Color activeColor = Color.white;
-        public Color inactiveColor = Color.gray;
+        [SerializeField] private List<TabMapping> tabs;
 
-        void Start()
+        private string currentTabName;
+
+        private void Start()
         {
-            // 모든 탭 버튼에 이벤트 리스너 등록
             foreach (var tab in tabs)
             {
-                tab.tabButton.onClick.AddListener(() => SwitchTab(tab.tabName));
+                string cachedTabName = tab.tabName;
+
+                if (tab.tabButton != null)
+                    tab.tabButton.onClick.AddListener(() => SwitchTab(cachedTabName));
+
+                if (tab.tabVisual != null)
+                    tab.tabVisual.SetSelected(false);
             }
 
-            // 기본적으로 첫 번째 탭 활성화
             if (tabs.Count > 0)
-            {
                 SwitchTab(tabs[0].tabName);
-            }
         }
 
         public void SwitchTab(string tabName)
         {
+            if (currentTabName == tabName)
+                return;
+
+            currentTabName = tabName;
+
             foreach (var tab in tabs)
             {
-                bool isActive = (tab.tabName == tabName);
-        
-                // 1. 패널 On/Off
-                if (tab.panel != null)
-                {
-                    tab.panel.SetActive(isActive);
-                }
+                bool isActive = tab.tabName == tabName;
 
-                // 2. 버튼 시각적 피드백 및 인터렉션 제어
+                if (tab.panel != null)
+                    tab.panel.SetActive(isActive);
+
+                if (tab.tabVisual != null)
+                    tab.tabVisual.SetSelected(isActive);
+
                 if (tab.tabButton != null)
-                {
-                    // 선택된 탭이면 interactable을 false로, 아니면 true로 설정
                     tab.tabButton.interactable = !isActive;
-                }
             }
         }
     }

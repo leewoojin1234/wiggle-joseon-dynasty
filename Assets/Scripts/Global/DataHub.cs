@@ -69,7 +69,12 @@ namespace Wiggle.Global
         /// </summary>
         public static void ResetAllData()
         {
-            if (Status != null) Status.ResetToDefault(Settings != null ? Settings.wiggleBase : 1.0f);
+            if (Status != null)
+            {
+                float baseWiggle = Settings != null ? Settings.wiggleBase : 1.0f;
+                float lifeSpanSeconds = Settings != null ? Settings.rulerLifeSpanSeconds : 600f;
+                Status.ResetToDefault(baseWiggle, lifeSpanSeconds);
+            }
             if (HelperStatus != null) HelperStatus.ResetData();
             if (InvestmentStatus != null) InvestmentStatus.ResetData();
             // PermanentStatus는 지우지 않습니다 (사용자가 '데이터 완전 삭제'를 원할 때만 별도 호출)
