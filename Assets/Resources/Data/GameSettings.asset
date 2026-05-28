@@ -14,12 +14,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseIncomePerSecond: 1
   clickBaseIncome: 1
-  wiggleBase: 0.5
+  wiggleBase: 0.1
   wiggleBoostPerClick: 0.1
-  wiggleMax: 1.5
-  wiggleDecayRate: 0.5
+  wiggleMax: 5
+  wiggleDecayRate: 1
   overWiggleThreshold: 3.5
-  overWiggleSentimentLossPerSecond: 0.25
+  overWiggleSentimentLossPerSecond: 0
   taxIncomeMultiplier: 100
   taxMinSimPenalty: -10
   rulerLifeSpanSeconds: 600

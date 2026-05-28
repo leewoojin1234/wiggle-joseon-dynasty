@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChiefOfPolice
   m_EditorClassIdentifier: 
   helperName: "\uD3EC\uB3C4\uB300\uC7A5"
-  visualPrefab: {fileID: 8174195013818459700, guid: 347229652deb84ef5a4b72d2fd942e2a, type: 3}
+  visualPrefab: {fileID: 8174195013818459700, guid: bd4a0d690d9684e54abfa5e75a28ad99, type: 3}
   baseCost: 350000
   baseIncome: 45000
   costMultiplier: 1.15

@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using Wiggle.Data;
@@ -13,6 +14,8 @@ namespace Wiggle.UI
 
         [Header("UI Reference")]
         public Slider gaugeSlider;
+        public TextMeshProUGUI baseValueText;
+        public TextMeshProUGUI maxValueText;
         
         private void Awake()
         {
@@ -31,6 +34,8 @@ namespace Wiggle.UI
                 gaugeSlider.minValue = settings.wiggleBase;
                 gaugeSlider.maxValue = settings.wiggleMax;
             }
+
+            UpdateRangeTexts();
         }
 
         void Update()
@@ -40,6 +45,22 @@ namespace Wiggle.UI
             // 2. 현재 실룩 수치를 슬라이더 값에 반영
             float currentPower = status.wigglePower;
             gaugeSlider.value = currentPower;
+        }
+
+        private void UpdateRangeTexts()
+        {
+            if (settings == null) return;
+
+            if (baseValueText != null)
+                baseValueText.text = FormatMultiplier(settings.wiggleBase);
+
+            if (maxValueText != null)
+                maxValueText.text = FormatMultiplier(settings.wiggleMax);
+        }
+
+        private string FormatMultiplier(float value)
+        {
+            return $"{value:0.0}x";
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Wiggle.Data
 
         [Header("Sentiment Pressure")]
         public float overWiggleThreshold = 3.5f;
-        public float overWiggleSentimentLossPerSecond = 0.25f;
+        public float overWiggleSentimentLossPerSecond = 0f;
 
         [Header("Tax Settings")]
         public float taxIncomeMultiplier = 100f;

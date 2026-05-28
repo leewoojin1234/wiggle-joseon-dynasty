@@ -24,8 +24,13 @@ namespace Wiggle.UI
         public Button optionAButton;
         public Button optionBButton;
 
+        [Header("Settings")]
+        public float choiceLockSeconds = 3f;
+
         private PetitionSystem petitionSystem;
         private CanvasGroup panelCanvasGroup;
+        private PetitionEventData lockedEvent;
+        private float choiceUnlockTime;
 
         private void Awake()
         {
@@ -44,16 +49,23 @@ namespace Wiggle.UI
             if (optionAButton != null)
             {
                 optionAButton.onClick.RemoveAllListeners();
-                optionAButton.onClick.AddListener(() => petitionSystem?.ChooseOptionA());
+                optionAButton.onClick.AddListener(ChooseOptionA);
             }
 
             if (optionBButton != null)
             {
                 optionBButton.onClick.RemoveAllListeners();
-                optionBButton.onClick.AddListener(() => petitionSystem?.ChooseOptionB());
+                optionBButton.onClick.AddListener(ChooseOptionB);
             }
 
             Refresh();
+        }
+
+        private void Update()
+        {
+            if (petitionSystem == null || !petitionSystem.HasPendingEvent) return;
+
+            RefreshChoiceLockState();
         }
 
         private void OnDisable()
@@ -73,16 +85,60 @@ namespace Wiggle.UI
             PetitionEventData pending = petitionSystem.PendingEvent;
             bool hasEvent = pending != null;
 
-            SetPanelVisible(hasEvent);
+            if (!hasEvent)
+            {
+                lockedEvent = null;
+                SetPanelVisible(false);
+                return;
+            }
 
-            if (!hasEvent) return;
+            StartChoiceLockIfNeeded(pending);
+
+            SetPanelVisible(true);
 
             if (titleText != null) titleText.text = pending.title;
             if (descriptionText != null) descriptionText.text = pending.description;
-            if (queuedCountText != null) queuedCountText.text = "상소 도착";
 
             BindOption(pending.optionA, optionALabelText, optionAEffectText);
             BindOption(pending.optionB, optionBLabelText, optionBEffectText);
+            RefreshChoiceLockState();
+        }
+
+        private void StartChoiceLockIfNeeded(PetitionEventData pending)
+        {
+            if (lockedEvent == pending) return;
+
+            lockedEvent = pending;
+            choiceUnlockTime = Time.time + choiceLockSeconds;
+        }
+
+        private void RefreshChoiceLockState()
+        {
+            bool isLocked = IsChoiceLocked();
+
+            if (optionAButton != null)
+                optionAButton.interactable = !isLocked;
+
+            if (optionBButton != null)
+                optionBButton.interactable = !isLocked;
+
+            if (queuedCountText != null)
+            {
+                if (isLocked)
+                {
+                    int remainingSeconds = Mathf.CeilToInt(choiceUnlockTime - Time.time);
+                    queuedCountText.text = $"{remainingSeconds}초 후 선택 가능";
+                }
+                else
+                {
+                    queuedCountText.text = "상소 도착";
+                }
+            }
+        }
+
+        private bool IsChoiceLocked()
+        {
+            return petitionSystem != null && petitionSystem.HasPendingEvent && Time.time < choiceUnlockTime;
         }
 
         private void BindOption(PetitionOption option, TextMeshProUGUI labelText, TextMeshProUGUI effectText)
@@ -129,6 +185,18 @@ namespace Wiggle.UI
             }
 
             panelRoot.SetActive(visible);
+        }
+
+        private void ChooseOptionA()
+        {
+            if (IsChoiceLocked()) return;
+            petitionSystem?.ChooseOptionA();
+        }
+
+        private void ChooseOptionB()
+        {
+            if (IsChoiceLocked()) return;
+            petitionSystem?.ChooseOptionB();
         }
     }
 }

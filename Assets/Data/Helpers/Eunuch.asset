@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Eunuch
   m_EditorClassIdentifier: 
   helperName: "\uB0B4\uC2DC"
-  visualPrefab: {fileID: 8174195013818459700, guid: 347229652deb84ef5a4b72d2fd942e2a, type: 3}
+  visualPrefab: {fileID: 8174195013818459700, guid: 19141ed1a01a64aba817add3503ee773, type: 3}
   baseCost: 5000000
   baseIncome: 650000
   costMultiplier: 1.15

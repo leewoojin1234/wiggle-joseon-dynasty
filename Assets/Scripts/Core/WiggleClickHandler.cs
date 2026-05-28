@@ -19,6 +19,12 @@ namespace Wiggle.Core
         [Tooltip("클릭 시 소리 재생 (AudioSource)")]
         public AudioSource clickSound;
 
+        [Header("Click Effect Sprites")]
+        public Sprite sillukSprite;
+        public Sprite sellukSprite;
+
+        private bool useSillukSprite = true;
+
         // 모바일 터치 / 마우스 클릭 즉시 호출됨
         public void OnPointerDown(PointerEventData eventData)
         {
@@ -53,7 +59,7 @@ namespace Wiggle.Core
 
             // D. 모바일 햅틱 피드백 (기본 진동)
             #if UNITY_ANDROID || UNITY_IOS
-            Handheld.Vibrate(); 
+            HapticManager.ShortVibrate(40, 200); // 30ms 진동, 150 강도
             #endif
         }
 
@@ -67,8 +73,17 @@ namespace Wiggle.Core
             
             // 수정된 부분: 캔버스(Overlay) 환경에서는 eventData.position을 바로 쓰면 됩니다.
             effect.transform.position = eventData.position;
+            effect.SetSprite(GetNextClickEffectSprite());
             
             effect.PlayEffect();
+        }
+
+        private Sprite GetNextClickEffectSprite()
+        {
+            Sprite nextSprite = useSillukSprite ? sillukSprite : sellukSprite;
+            useSillukSprite = !useSillukSprite;
+
+            return nextSprite;
         }
 
         // DOTween 없이 구현한 간단한 찌그러짐 애니메이션

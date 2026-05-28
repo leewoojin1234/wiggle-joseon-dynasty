@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Gisaeng
   m_EditorClassIdentifier: 
   helperName: "\uAE30\uC0DD"
-  visualPrefab: {fileID: 8174195013818459700, guid: 347229652deb84ef5a4b72d2fd942e2a, type: 3}
+  visualPrefab: {fileID: 8174195013818459700, guid: 61c2bf8b0d6724d1abb2fa1605ce6e4d, type: 3}
   baseCost: 25000
   baseIncome: 3000
   costMultiplier: 1.15

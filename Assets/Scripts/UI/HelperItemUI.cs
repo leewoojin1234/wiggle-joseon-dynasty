@@ -60,7 +60,8 @@ namespace Wiggle.UI
 
             if (costText != null)
             {
-                string costLine = $"{NumberFormatter.Format(cost)} 냥";
+                string costPrefix = level <= 0 ? "해금" : "강화";
+                string costLine = $"{costPrefix}: {NumberFormatter.Format(cost)} 냥";
                 if (incomeText == null || effectText == null)
                     costLine = $"{costLine}\n{FormatIncomeSummary(currentIncome, incomePerLevel)}";
 
@@ -89,10 +90,9 @@ namespace Wiggle.UI
 
             if (canvasGroup != null)
             {
-                // 잠금 상태 시각화는 필요할 때만 갱신하는 게 좋지만, 로직 단순화를 위해 유지
                 canvasGroup.alpha = isUnlocked ? 1f : 0.4f;
-                canvasGroup.interactable = isUnlocked;
-                canvasGroup.blocksRaycasts = isUnlocked;
+                canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
             }
 
             // 2. 돈이 충분한지 실시간 체크하여 버튼 활성화
